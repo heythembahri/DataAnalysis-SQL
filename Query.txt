@@ -1,0 +1,17 @@
+SELECT TOP 5  
+    employees.LastName, 
+    employees.FirstName, 
+    orders.OrderID, 
+    SUM(products.Price * orderDetails.Quantity) AS SalesAmount
+FROM 
+    ((employees
+    INNER JOIN orders ON employees.employeeID = orders.employeeID)
+    INNER JOIN orderDetails ON orders.OrderID = orderDetails.OrderID)
+    INNER JOIN products ON orderDetails.ProductID = products.ProductID 
+GROUP BY
+    employees.LastName, 
+    employees.FirstName, 
+    orders.OrderID
+HAVING orders.orderid in (10372, 10424, 10417, 10324, 10351)
+ORDER BY 
+   SUM(products.Price * orderDetails.Quantity) desc;
